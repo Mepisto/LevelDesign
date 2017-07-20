@@ -28,18 +28,13 @@ namespace Orca.Contents.LevelDesign
 
     #endregion "Struct LdSpawnTransform"
 
-    public interface ILdSpawner
+    public class LdSpawner : LevelDesignBase
     {
-        void Spawn();        
-    }
-
-    public class LdSpawner : LevelDesignBase, ILdSpawner
-    {
-        [SerializeField]
-        private List<LdSpawnPoint> SpawnPoints = new List<LdSpawnPoint>();
-
         [SerializeField]
         private List<LdSpawnWave> SpawnWaves = new List<LdSpawnWave>();
+
+        [NonSerialized]
+        private int m_currentWave = 0;
 
         #region "ILevelDesign"
 
@@ -57,13 +52,14 @@ namespace Orca.Contents.LevelDesign
         public override void Active(bool isActive)
         {
             this.IsActive = isActive;
+
+            SpawnWaves[m_currentWave].StartWave();
         }
 
         #endregion "ILevelDesign"
 
         protected override void Awake()
-        {
-            SpawnPoints.Add(new LdSpawnPoint());
+        {            
             SpawnWaves.Add(new LdSpawnWave());
         }
 
@@ -75,18 +71,9 @@ namespace Orca.Contents.LevelDesign
         {
             for (int i = 0; i < SpawnWaves.Count; ++i)
             {
-                SpawnWaves[0].OnFixedUpdate();
+                SpawnWaves[i].OnFixedUpdate();
             }
         }
 
-        public void Spawn()
-        {
-            Debug.LogError("Spawn : " + this.gameObject.name);
-
-            var tr = SpawnPoints[0].GetSpawnTransform();
-            var rot = Quaternion.LookRotation(tr.Direction);
-            var enemy = Resources.Load("Enemy");
-            var enemyGO = (GameObject)Instantiate(enemy, tr.Position, rot);
-        }
     }
 }

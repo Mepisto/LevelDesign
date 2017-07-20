@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Global : SingletonMonoBehaviour<Global>
 {
@@ -64,7 +65,7 @@ public class Global : SingletonMonoBehaviour<Global>
             uint msgCode = 0;
             if (message != null)
             {
-                //msgCode = message.MsgCode;
+                msgCode = message.MsgCode;
                 bool succ = OnMessage(message);
 
                 float currentTime = time;
@@ -79,6 +80,12 @@ public class Global : SingletonMonoBehaviour<Global>
                 break;
             }
         }
+    }
+
+    // TODO Mepi : 임시.
+    public static void InstantiateEnemy(UnityEngine.Object enemy, Vector3 pos, Quaternion rot)
+    {
+        var enemyGO = (GameObject)Instantiate(enemy, pos, rot);
     }
 
     public bool OnMessage(IMessage message)

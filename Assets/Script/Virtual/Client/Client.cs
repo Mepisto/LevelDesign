@@ -50,7 +50,6 @@ public class Client : SingletonMonoBehaviour<Client>
                 if (spawner.IsValidID(msg.EnterInfo.ID))
                 {
                     spawner.Active(true);
-                    spawner.Spawn();
                     break;
                 }
             }
