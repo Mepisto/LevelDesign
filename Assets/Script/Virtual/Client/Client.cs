@@ -1,8 +1,8 @@
 ﻿using Lib.Pattern;
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using Orca.Contents.LevelDesign;
 
 public class Client : SingletonMonoBehaviour<Client>
 {

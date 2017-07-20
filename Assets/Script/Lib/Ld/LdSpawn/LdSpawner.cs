@@ -1,56 +1,92 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ILdSpawner
+namespace Orca.Contents.LevelDesign
 {
-    void Spawn();
+    #region "Struct LdSpawnTransform"
 
-}
-
-public class LdSpawner : LevelDesignBase, ILdSpawner
-{
-    public static readonly float s_fPI = Mathf.PI;
-    public static readonly float s_fDegreeToRadian = s_fPI / 180.0f;
-
-
-    #region "ILevelDesign"
-    public override void Init()
+    public struct LdSpawnTransform
     {
-        this.IsActive = false;
-        this.eLdCategory = eLevelDesignCategory.Spawner;
+        private Vector3 m_position;
+        private Vector3 m_direction;
+        private Vector3 m_scale;
+
+        public LdSpawnTransform(Vector3 position, Vector3 direction, Vector3 scale)
+        {
+            m_position = position;
+            m_direction = direction;
+            m_scale = scale;
+        }
+
+        public Vector3 Position { get { return m_position; } }
+
+        public Vector3 Direction { get { return m_direction; } }
+
+        public Vector3 Scale { get { return m_scale; } }
     }
 
-    public override bool IsValidID(uint id)
+    #endregion "Struct LdSpawnTransform"
+
+    public interface ILdSpawner
     {
-        return this.Id == id;
+        void Spawn();        
     }
 
-    public override void Active(bool isActive)
+    public class LdSpawner : LevelDesignBase, ILdSpawner
     {
-        this.IsActive = isActive;
+        [SerializeField]
+        private List<LdSpawnPoint> SpawnPoints = new List<LdSpawnPoint>();
+
+        [SerializeField]
+        private List<LdSpawnWave> SpawnWaves = new List<LdSpawnWave>();
+
+        #region "ILevelDesign"
+
+        public override void Init()
+        {
+            this.IsActive = false;
+            this.eLdCategory = eLevelDesignCategory.Spawner;
+        }
+
+        public override bool IsValidID(uint id)
+        {
+            return this.Id == id;
+        }
+
+        public override void Active(bool isActive)
+        {
+            this.IsActive = isActive;
+        }
+
+        #endregion "ILevelDesign"
+
+        protected override void Awake()
+        {
+            SpawnPoints.Add(new LdSpawnPoint());
+            SpawnWaves.Add(new LdSpawnWave());
+        }
+
+        protected override void Start()
+        {
+        }
+
+        protected override void FixedUpdate()
+        {
+            for (int i = 0; i < SpawnWaves.Count; ++i)
+            {
+                SpawnWaves[0].OnFixedUpdate();
+            }
+        }
+
+        public void Spawn()
+        {
+            Debug.LogError("Spawn : " + this.gameObject.name);
+
+            var tr = SpawnPoints[0].GetSpawnTransform();
+            var rot = Quaternion.LookRotation(tr.Direction);
+            var enemy = Resources.Load("Enemy");
+            var enemyGO = (GameObject)Instantiate(enemy, tr.Position, rot);
+        }
     }
-    #endregion "ILevelDesign"
-
-    protected override void Start ()
-    {
-		
-	}
-
-    protected override void FixedUpdate()
-    {
-    }
-
-    public void Spawn()
-    {
-        Debug.LogError("Spawn");
-
-        var fRadian = this.LocalRadian * s_fDegreeToRadian;
-        var direction = new Vector3(-Mathf.Sin(fRadian), 0.0f, -Mathf.Cos(fRadian));
-        var rot = Quaternion.LookRotation(direction);
-
-        var enemy = Resources.Load("Enemy");
-        var enemyGO = (GameObject)Instantiate(enemy, this.Position, rot);
-    }    
 }

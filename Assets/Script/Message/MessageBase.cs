@@ -5,8 +5,11 @@
 public interface IMessage : IDisposable
 {
     uint MsgCode { get; }
+
     bool IsDeliveryMsg { get; }
+
     bool IsNetMsg { get; }
+
     eMessage MsgType { get; }
 }
 
@@ -55,13 +58,6 @@ public class TriggerEnterInfo
     }
 }
 
-public class TriggerExitInfo
-{
-    public TriggerExitInfo()
-    {
-    }
-}
-
 public class TriggerEnterMsg : MessageBase
 {
     public TriggerEnterInfo EnterInfo { get; set; }
@@ -69,6 +65,13 @@ public class TriggerEnterMsg : MessageBase
     public override eMessage MsgType
     {
         get { return eMessage.TriggerEnter; }
+    }
+}
+
+public class TriggerExitInfo
+{
+    public TriggerExitInfo()
+    {
     }
 }
 

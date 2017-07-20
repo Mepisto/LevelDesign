@@ -1,56 +1,66 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class LdTrigger : LevelDesignBase
+namespace Orca.Contents.LevelDesign
 {
-    public override void Init()
+    public class LdTrigger : LevelDesignBase
     {
-        this.Position = Vector3.zero;
-        this.LocalRadian = 0f;
-        this.IsActive = true;
-        this.eLdCategory = eLevelDesignCategory.Trigger;
-    }
+        #region "ILevelDesign"
 
-    public override bool IsValidID(uint id)
-    {
-        return this.Id == id;
-    }
-
-    public override void Active(bool isActive)
-    {
-        this.IsActive = isActive;
-    }
-
-    protected override void Start ()
-    {
-		
-	}
-
-    protected override void FixedUpdate()
-    {
-	}
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-
-        if (IsActive)
+        public override void Init()
         {
-            TriggerEnterMsg msg = new TriggerEnterMsg();
-            msg.EnterInfo = new TriggerEnterInfo(Id);
-            Global.PostMessage(msg);
+            this.Position = Vector3.zero;
+            this.LocalRadian = 0f;
+            this.IsActive = true;
+            this.eLdCategory = eLevelDesignCategory.Trigger;
         }
-    }
 
-    protected override void OnTriggerExit(Collider other)
-    {
-        base.OnTriggerExit(other);
+        public override bool IsValidID(uint id)
+        {
+            return this.Id == id;
+        }
 
-        //TriggerExitMsg msg = new TriggerExitMsg();
-        //msg.ExitInfo = new TriggerExitInfo();
+        public override void Active(bool isActive)
+        {
+            this.IsActive = isActive;
+        }
 
-        //Server.RequestMsg(msg);
+        #endregion "ILevelDesign"
+
+        protected override void Awake()
+        {
+
+        }
+
+        protected override void Start()
+        {
+
+        }
+
+        protected override void FixedUpdate()
+        {
+        }
+
+        protected override void OnTriggerEnter(Collider other)
+        {
+            base.OnTriggerEnter(other);
+
+            if (IsActive)
+            {
+                TriggerEnterMsg msg = new TriggerEnterMsg();
+                msg.EnterInfo = new TriggerEnterInfo(Id);
+                Server.RequestMsg(msg);
+                //Global.PostMessage(msg);
+            }
+        }
+
+        protected override void OnTriggerExit(Collider other)
+        {
+            base.OnTriggerExit(other);
+
+            //TriggerExitMsg msg = new TriggerExitMsg();
+            //msg.ExitInfo = new TriggerExitInfo();
+
+            //Server.RequestMsg(msg);
+        }
     }
 }

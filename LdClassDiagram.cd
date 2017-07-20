@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Global" Collapsed="true">
+    <Position X="0.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAgAAAEAABAAAAgAAAAAAAAAAAACAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Global.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lib.Pattern.SingletonMonoBehaviour&lt;T&gt;" Collapsed="true">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAIAAAAAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Lib\Pattern\SingletonMonoBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client" Collapsed="true">
+    <Position X="2.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAgAAAAAAAAAAAACAAAAAABAACAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Virtual\Client\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server" Collapsed="true">
+    <Position X="4.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAEAAAAAAAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>Assets\Script\Virtual\Server\Server.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessageQueue" Collapsed="true">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAACAIAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessageBase" Collapsed="true">
+    <Position X="7.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAMACAAAAAAAAAQCAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TriggerEnterInfo" Collapsed="true">
+    <Position X="6.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TriggerEnterMsg" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TriggerExitInfo" Collapsed="true">
+    <Position X="8.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TriggerExitMsg" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IMessage" Collapsed="true">
+    <Position X="8.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIACAAAAAAAAAQCAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Message\MessageBase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.IDisposable" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>
