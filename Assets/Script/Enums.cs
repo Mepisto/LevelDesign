@@ -29,3 +29,15 @@ public enum eMessage : int
     TriggerEnter = eLevelDesignCategory.Trigger << 16 | 0x0010,
     TriggerExit = eLevelDesignCategory.Trigger << 16 | 0x0011
 }
+
+public enum eNextWaveCondition
+{
+    SpawnCount,
+    DeathCount,
+    KillThemAll,
+    KillBoss,
+    //KillBossAndSpawnObjects,
+    //Custom,
+    //Time,
+}
+

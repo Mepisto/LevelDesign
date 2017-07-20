@@ -1,7 +1,5 @@
 ﻿using System;
 
-
-
 public interface IMessage : IDisposable
 {
     uint MsgCode { get; }

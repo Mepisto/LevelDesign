@@ -69,11 +69,22 @@ namespace Orca.Contents.LevelDesign
 
         protected override void FixedUpdate()
         {
+            float delta = Time.fixedDeltaTime;
             for (int i = 0; i < SpawnWaves.Count; ++i)
             {
-                SpawnWaves[i].OnFixedUpdate();
+                SpawnWaves[i].OnFixedUpdate(delta);
+            }
+
+
+            for (int i = 0; i < SpawnWaves.Count; ++i)
+            {
+                SpawnWaves[i].OnLateFixedUpdate(delta);
+
+                if (SpawnWaves[i].IsValidNextWaveCondition())
+                {
+                    m_currentWave++;
+                }
             }
         }
-
     }
 }

@@ -48,8 +48,12 @@ namespace Orca.Contents.LevelDesign
             {
                 TriggerEnterMsg msg = new TriggerEnterMsg();
                 msg.EnterInfo = new TriggerEnterInfo(Id);
+
+#if USE_SERVER
                 Server.RequestMsg(msg);
-                //Global.PostMessage(msg);
+#else
+                Global.PostMessage(msg);
+#endif
             }
         }
 
