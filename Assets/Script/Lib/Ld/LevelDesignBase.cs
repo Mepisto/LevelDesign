@@ -4,7 +4,7 @@ namespace Orca.Contents.LevelDesign
 {
     public interface ILevelDesign
     {
-        void Init();
+        void LdInit();
 
         bool IsValidID(uint id);
 
@@ -30,7 +30,7 @@ namespace Orca.Contents.LevelDesign
         protected eLevelDesignType LdType;
 
 
-        public abstract void Init();
+        public abstract void LdInit();
 
         public abstract bool IsValidID(uint id);
 

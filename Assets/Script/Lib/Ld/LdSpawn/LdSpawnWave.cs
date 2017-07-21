@@ -15,17 +15,44 @@ namespace Orca.Contents.LevelDesign
         void OnLateFixedUpdate(float delta);
 
         bool IsValidNextWaveCondition();
-    }
+    }        
+    
+    
+    /*public class LdSpawnWave_KillBoss : LdSpawnWave
+    //{
+    //}
+    */
 
     [Serializable]
-    public class LdSpawnWave : ILdSpawnWave
+    public abstract class LdSpawnWave : ILdSpawnWave
     {
         #region "Class Enemy"
 
         [Serializable]
         public class Enemy
         {
+            public enum eSpawnFlag
+            {
+                Exact = 0,          // Spawn at one of the spawn points exact location
+                InRadius = 1,       // Spawn at one of the spawn points in area defined by spawnRadius
+                AwayInRadius = 2,   // Spawn at one of the spawn points but spawnRadius away from the player
+            }
+
             public int Count;
+
+            public int npcID = 0;
+
+            public string npcName = string.Empty;
+
+            public eSpawnFlag spawnFlag;
+
+            public float spawnRadius;
+
+            public string spawnAnimationOverride = string.Empty;
+
+            public string startState = string.Empty;
+
+            public int explicitSpawnPoint = -1;
 
             public void SpawnEnemy()
             {
@@ -39,113 +66,128 @@ namespace Orca.Contents.LevelDesign
         #region "SerializeField"
 
         [SerializeField]
-        private eNextWaveCondition NextWaveCondition;
+        protected eNextWaveCondition NextWaveCondition;
 
         [SerializeField]
-        private int SpawnDelayTime;
+        protected int SpawnDelayTime;
 
         [SerializeField]
-        private List<Enemy> EnemyList = new List<Enemy>();
+        protected List<Enemy> EnemyList = new List<Enemy>();
         
         [SerializeField]
-        private List<LdSpawnPoint> SpawnPoints = new List<LdSpawnPoint>();
+        protected List<LdSpawnPoint> SpawnPoints = new List<LdSpawnPoint>();
 
         #endregion "SerializeField"
 
         #region "NonSerialized"
 
         [NonSerialized]
-        private int m_enemyWaveId;
+        protected int m_enemyListIndex = 0;
 
         [NonSerialized]
-        private float m_spendTime;
+        protected float m_spendTime = 0f;
 
         [NonSerialized]
-        private bool m_isActive;
+        protected bool m_isActive = false;
 
         [NonSerialized]
-        private int m_spawnedCount = 0;
+        protected int m_spawnedCount = 0;
 
         #endregion "NonSerialized"
 
-        public LdSpawnWave()
-        {
-            m_isActive = false;
-        }
+        #region "ILdSpawnWave"
 
-        #region "ILdSpawnWave"        
-        
-        public void StartWave()
-        {
-            m_isActive = true;
-        }
+        public abstract void StartWave();
+        public abstract void EndWave();
+        public abstract void OnFixedUpdate(float delta);
+        public abstract void OnLateFixedUpdate(float delta);
+        public abstract bool IsValidNextWaveCondition();
 
-        public void EndWave()
-        {
-            Debug.LogError("Go! NextWave");
-            m_isActive = false;
-            m_spendTime = 0f;
-            m_enemyWaveId = 0;
-            m_spawnedCount = 0;
-        }
+        /*public void StartWave()
+        //{
+        //    m_isActive = true;
+        //}
+        */
 
-        public void OnFixedUpdate(float delta)
-        {
-            if (false == m_isActive)
-                return;
+        /*public void EndWave()
+        //{
+        //    Debug.LogError("Go! NextWave");
+        //    m_isActive = false;
+        //    m_spendTime = 0f;
+        //    m_enemyListIndex = 0;
+        //    m_spawnedCount = 0;
+        //}
+        */
 
-            m_spendTime += delta;
+        /*public void OnFixedUpdate(float delta)
+        //{
+        //    if (false == m_isActive)
+        //        return;
 
-            if (0 < EnemyList[m_enemyWaveId].Count)
-            {
-                if (0 < SpawnDelayTime)
-                {
-                    if (SpawnDelayTime <= m_spendTime)
-                    {
-                        SpawnEnemy();
-                    }
-                    else if (0 == m_spawnedCount)
-                    {
-                        SpawnEnemy();
-                    }
-                }
-                else
-                {
-                    SpawnEnemy();
-                }
-            }
-        }
+        //    if (0 < EnemyList[m_enemyListIndex].Count)
+        //    {
+        //        if (0 < SpawnDelayTime)
+        //        {
+        //            m_spendTime += delta;
 
-        public void OnLateFixedUpdate(float delta)
-        {
-            if (m_isActive)
-            {
-                if (EnemyList[m_enemyWaveId].Count == 0 && m_enemyWaveId < EnemyList.Count - 1)
-                {
-                    Debug.LogError("NextEnemy List");
-                    ++m_enemyWaveId;
-                }
-            }
-        }
+        //            // Spawn Delay
+        //            DelaySpawn();
+        //        }
+        //        else
+        //        {
+        //            // Spawn Direct
+        //            SpawnEnemy();
+        //        }
+        //    }
+        //}        
+        */
 
-        public bool IsValidNextWaveCondition()
-        {
-            if (m_isActive)
-            {
-                return CheckNextWaveCondition();
-            }
+        /*public void OnLateFixedUpdate(float delta)
+        //{
+        //    if (m_isActive)
+        //    {
+        //        if (EnemyList[m_enemyListIndex].Count == 0 && m_enemyListIndex < EnemyList.Count - 1)
+        //        {
+        //            Debug.LogError("NextEnemy List");
+        //            ++m_enemyListIndex;
+        //        }
+        //    }
+        //}
+        */
 
-            return false;
-        }
+        /*public bool IsValidNextWaveCondition()
+        //{
+        //    if (m_isActive)
+        //    {
+        //        return CheckNextWaveCondition();
+        //    }
+
+        //    return false;
+        //}
+        */
 
         #endregion "ILdSpawner"
 
-        private bool CheckNextWaveCondition()
+        protected void DelaySpawn()
+        {
+            if (SpawnDelayTime <= m_spendTime)
+            {
+                // Spawn Delay
+                SpawnEnemy();
+            }
+            else if (0 == m_spawnedCount)
+            {
+                // Spawn Delay ignore First
+                SpawnEnemy();
+            }
+        }
+
+        protected bool CheckNextWaveCondition()
         {
             switch (NextWaveCondition)
             {
                 case eNextWaveCondition.SpawnCount:
-                    if (EnemyList[m_enemyWaveId].Count == 0 && m_enemyWaveId == EnemyList.Count - 1)
+                    if (EnemyList[m_enemyListIndex].Count == 0 && m_enemyListIndex == EnemyList.Count - 1)
                     {
                         return true;
                     }
@@ -156,17 +198,21 @@ namespace Orca.Contents.LevelDesign
 
             return false;
         }
-        
-        private void SpawnEnemy()
+
+        protected void SpawnEnemy()
         {
             var tr = SpawnPoints[0].GetSpawnTransform();
             var rot = Quaternion.LookRotation(tr.Direction);
             var enemy = Resources.Load("Enemy");
 
             Global.InstantiateEnemy(enemy, tr.Position, rot);
-            EnemyList[m_enemyWaveId].SpawnEnemy();
+            EnemyList[m_enemyListIndex].SpawnEnemy();
             m_spendTime = 0f;
             m_spawnedCount++;
-        }        
+        }
+
+#if UNITY_EDITOR
+        public abstract void InitializeByInsertArrayElement();
+#endif
     }
 }

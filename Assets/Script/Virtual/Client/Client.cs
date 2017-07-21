@@ -28,12 +28,12 @@ public class Client : SingletonMonoBehaviour<Client>
     {
         foreach (var spawner in Instance.Spawners)
         {
-            spawner.Init();
+            spawner.LdInit();
         }
 
         foreach (var trigger in Instance.Triggers)
         {
-            trigger.Init();
+            trigger.LdInit();
         }
     }
 

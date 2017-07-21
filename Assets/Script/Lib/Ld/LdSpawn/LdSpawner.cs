@@ -31,17 +31,32 @@ namespace Orca.Contents.LevelDesign
     public class LdSpawner : LevelDesignBase
     {
         [SerializeField]
-        private List<LdSpawnWave> SpawnWaves = new List<LdSpawnWave>();
+        private List<LdConditionSpawnCount> SpawnCountWaves = new List<LdConditionSpawnCount>();
+
+        [SerializeField]
+        private List<LdConditionDeathCount> DeathCountWaves = new List<LdConditionDeathCount>();
+
+        [SerializeField]
+        private List<LdConditionKillThemAll> KillThemAllWaves = new List<LdConditionKillThemAll>();
+        
+        [NonSerialized]
+        private List<ILdSpawnWave> m_spawnWaves = new List<ILdSpawnWave>();
 
         [NonSerialized]
         private int m_currentWave = 0;
 
         #region "ILevelDesign"
 
-        public override void Init()
+        public override void LdInit()
         {
             this.IsActive = false;
             this.eLdCategory = eLevelDesignCategory.Spawner;
+
+            SpawnCountWaves.Add(new LdConditionSpawnCount());
+
+            m_spawnWaves.AddRange(SpawnCountWaves.ToArray());
+            m_spawnWaves.AddRange(DeathCountWaves.ToArray());
+            m_spawnWaves.AddRange(KillThemAllWaves.ToArray());
         }
 
         public override bool IsValidID(uint id)
@@ -53,7 +68,7 @@ namespace Orca.Contents.LevelDesign
         {
             this.IsActive = isActive;
 
-            SpawnWaves[m_currentWave].StartWave();
+            m_spawnWaves[m_currentWave].StartWave();
         }
 
         #endregion "ILevelDesign"
@@ -69,23 +84,23 @@ namespace Orca.Contents.LevelDesign
         protected override void FixedUpdate()
         {
             float delta = Time.fixedDeltaTime;
-            for (int i = 0; i < SpawnWaves.Count; ++i)
+            for (int i = 0; i < m_spawnWaves.Count; ++i)
             {
-                SpawnWaves[i].OnFixedUpdate(delta);
+                m_spawnWaves[i].OnFixedUpdate(delta);
             }
 
 
-            for (int i = 0; i < SpawnWaves.Count; ++i)
+            for (int i = 0; i < m_spawnWaves.Count; ++i)
             {
-                SpawnWaves[i].OnLateFixedUpdate(delta);
+                m_spawnWaves[i].OnLateFixedUpdate(delta);
 
-                if (SpawnWaves[i].IsValidNextWaveCondition())
+                if (m_spawnWaves[i].IsValidNextWaveCondition())
                 {
-                    SpawnWaves[m_currentWave++].EndWave();
+                    m_spawnWaves[m_currentWave++].EndWave();
 
-                    if (m_currentWave < SpawnWaves.Count)
+                    if (m_currentWave < m_spawnWaves.Count)
                     {
-                        SpawnWaves[m_currentWave].StartWave();
+                        m_spawnWaves[m_currentWave].StartWave();
                     }
                 }
             }

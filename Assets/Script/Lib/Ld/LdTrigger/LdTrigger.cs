@@ -6,7 +6,7 @@ namespace Orca.Contents.LevelDesign
     {
         #region "ILevelDesign"
 
-        public override void Init()
+        public override void LdInit()
         {
             this.Position = Vector3.zero;
             this.LocalRadian = 0f;
