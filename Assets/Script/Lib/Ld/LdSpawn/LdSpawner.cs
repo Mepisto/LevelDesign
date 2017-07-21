@@ -59,8 +59,7 @@ namespace Orca.Contents.LevelDesign
         #endregion "ILevelDesign"
 
         protected override void Awake()
-        {            
-            SpawnWaves.Add(new LdSpawnWave());
+        {
         }
 
         protected override void Start()
@@ -82,7 +81,12 @@ namespace Orca.Contents.LevelDesign
 
                 if (SpawnWaves[i].IsValidNextWaveCondition())
                 {
-                    m_currentWave++;
+                    SpawnWaves[m_currentWave++].EndWave();
+
+                    if (m_currentWave < SpawnWaves.Count)
+                    {
+                        SpawnWaves[m_currentWave].StartWave();
+                    }
                 }
             }
         }

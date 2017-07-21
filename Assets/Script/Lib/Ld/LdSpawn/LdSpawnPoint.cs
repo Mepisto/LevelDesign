@@ -5,7 +5,6 @@ namespace Orca.Contents.LevelDesign
 {
     public interface ILdSpawnPoint
     {
-
         LdSpawnTransform GetSpawnTransform();
     }
 
