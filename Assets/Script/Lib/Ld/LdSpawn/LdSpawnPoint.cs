@@ -28,13 +28,33 @@ namespace Orca.Contents.LevelDesign
         public static readonly float s_fDegreeToRadian = s_fPI / 180.0f;
 
         [SerializeField]
-        private float LocalRadian;
+        private int LocalRadian;
 
         [SerializeField]
         private Vector3 Position;
 
+        [SerializeField]
+        private eSpawnFlags spawnFlags = 0;
+
         public LdSpawnPoint()
         {
+        }
+
+        public bool GetFlag(eSpawnFlags flag)
+        {
+            return (spawnFlags & flag) == flag;
+        }
+
+        public void SetFlag(eSpawnFlags flag, bool set)
+        {
+            if (set)
+            {
+                spawnFlags |= flag;
+            }
+            else
+            {
+                spawnFlags &= ~flag;
+            }
         }
 
         public LdSpawnTransform GetSpawnTransform()
@@ -46,5 +66,25 @@ namespace Orca.Contents.LevelDesign
 
             return tr;
         }
+
+#if UNITY_EDITOR
+        public void InitializeByInsertArrayElement()
+        {
+            SetFlag(eSpawnFlags.LocalSpace, true);
+        }
+
+        public void SetPosition(Vector3 worldPosition, Transform transform)
+        {
+            if (GetFlag(eSpawnFlags.LocalSpace))
+            {
+                Vector3 localPosition = transform.InverseTransformPoint(worldPosition);
+                Position = localPosition;
+            }
+            else
+            {
+                Position = worldPosition;
+            }
+        }
+#endif
     }
 }

@@ -6,42 +6,21 @@ using UnityEngine;
 namespace Orca.Contents.LevelDesign
 {
     [Serializable]
-    public class LdConditionKillThemAll : LdSpawnWave
+    public class LdWaveConditionKillThemAll : LdWaveCondition
     {
-        #region "ILdSpawnWave"
-
-        public override void EndWave()
+        public LdWaveConditionKillThemAll()
         {
-            throw new NotImplementedException();
+            NextWaveCondition = eNextWaveCondition.KillThemAll;
         }
 
-        public override bool IsValidNextWaveCondition()
+        public override eNextWaveCondition GetNextWaveCondition()
         {
-            throw new NotImplementedException();
+            return NextWaveCondition;
         }
 
-        public override void OnFixedUpdate(float delta)
+        public override int GetSpawnDelayTime()
         {
-            throw new NotImplementedException();
+            return SpawnDelayTime;
         }
-
-        public override void OnLateFixedUpdate(float delta)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void StartWave()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion "ILdSpawnWave"
-
-#if UNITY_EDITOR
-        public override void InitializeByInsertArrayElement()
-        {
-            this.NextWaveCondition = eNextWaveCondition.KillThemAll;
-        }
-#endif
     }
 }
